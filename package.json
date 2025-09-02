@@ -8,7 +8,7 @@
     "dev:local": "wrangler dev --local",
     "deploy": "wrangler deploy",
     "build": "tsc -p tsconfig.json --outDir dist",
-    "check": "tsc --noEmit",
+    "check": "npm run -s check:src && npm run -s check:test",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "vitest run",

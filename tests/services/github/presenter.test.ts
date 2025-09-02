@@ -1,7 +1,7 @@
-import { expect, test } from "vitest"
+import { expect, test } from 'vitest';
 
-import type { CommentItemSubset, IssueSubset } from '../src/external/github/types';
-import { toLLMIssueResponse } from '../src/services/github/presenter';
+import type { CommentItemSubset, IssueSubset } from '../../../src/external/github/types';
+import { toLLMIssueResponse } from '../../../src/services/github/presenter';
 
 const baseIssue: IssueSubset = {
   number: 123,
@@ -45,14 +45,12 @@ test('presenter maps fields and uses comments_total_count when present', () => {
 
   expect(out.content.body_markdown).toBe(baseIssue.body_markdown);
 
-  // comments_total_count should be preferred over items.length
   expect(out.comments.total_count).toBe(5);
   expect(out.comments.items.length).toBe(2);
   expect(out.comments.items).toStrictEqual(comments);
 });
 
 test('presenter falls back to items.length when comments_total_count is undefined', () => {
-  // omit comments_total_count at runtime to simulate missing upstream count
   const issueWithoutCount = { ...baseIssue };
   delete (issueWithoutCount as any).comments_total_count;
 
