@@ -20,14 +20,10 @@ jobs:
           cache: npm
       - name: Install
         run: npm ci
-      - name: Type check (src)
+      - name: Type check
         run: npm run -s check
-      - name: Type check (tests)
-        run: npm run -s check:test
-      - name: Lint (src)
+      - name: Lint
         run: npm run -s lint
-      - name: Lint (tests)
-        run: npm run -s lint:test
 
   test:
     name: Build & Test

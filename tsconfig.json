@@ -1,10 +1,19 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
+    "target": "ES2022",
+    "lib": ["ES2023", "WebWorker"],
     "types": ["@cloudflare/workers-types"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "strict": true
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "useUnknownInCatchVariables": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "skipLibCheck": true,
+    "noEmit": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["dist", "node_modules"]
 }

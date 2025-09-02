@@ -1,9 +1,7 @@
-import assert from 'node:assert/strict';
-import test from 'node:test';
+import { expect, test } from "vitest"
 
-// Note: import .js to make the compiled path resolve to dist/src/...
-import type { CommentItemSubset, IssueSubset } from '../src/external/github/types.js';
-import { toLLMIssueResponse } from '../src/services/github/presenter.js';
+import type { CommentItemSubset, IssueSubset } from '../src/external/github/types';
+import { toLLMIssueResponse } from '../src/services/github/presenter';
 
 const baseIssue: IssueSubset = {
   number: 123,
@@ -32,25 +30,25 @@ test('presenter maps fields and uses comments_total_count when present', () => {
     comments,
   });
 
-  assert.strictEqual(out.source.owner, 'owner');
-  assert.strictEqual(out.source.repo, 'repo');
-  assert.strictEqual(out.source.issue_number, 123);
-  assert.strictEqual(out.source.html_url, baseIssue.html_url);
+  expect(out.source.owner).toBe('owner');
+  expect(out.source.repo).toBe('repo');
+  expect(out.source.issue_number).toBe(123);
+  expect(out.source.html_url).toBe(baseIssue.html_url);
 
-  assert.strictEqual(out.issue.number, baseIssue.number);
-  assert.strictEqual(out.issue.title, baseIssue.title);
-  assert.strictEqual(out.issue.state, baseIssue.state);
-  assert.strictEqual(out.issue.author, baseIssue.author);
-  assert.deepStrictEqual(out.issue.labels, baseIssue.labels);
-  assert.deepStrictEqual(out.issue.assignees, baseIssue.assignees);
-  assert.strictEqual(out.issue.created_at, baseIssue.created_at);
+  expect(out.issue.number).toBe(baseIssue.number);
+  expect(out.issue.title).toBe(baseIssue.title);
+  expect(out.issue.state).toBe(baseIssue.state);
+  expect(out.issue.author).toBe(baseIssue.author);
+  expect(out.issue.labels).toStrictEqual(baseIssue.labels);
+  expect(out.issue.assignees).toStrictEqual(baseIssue.assignees);
+  expect(out.issue.created_at).toBe(baseIssue.created_at);
 
-  assert.strictEqual(out.content.body_markdown, baseIssue.body_markdown);
+  expect(out.content.body_markdown).toBe(baseIssue.body_markdown);
 
   // comments_total_count should be preferred over items.length
-  assert.strictEqual(out.comments.total_count, 5);
-  assert.strictEqual(out.comments.items.length, 2);
-  assert.deepStrictEqual(out.comments.items, comments);
+  expect(out.comments.total_count).toBe(5);
+  expect(out.comments.items.length).toBe(2);
+  expect(out.comments.items).toStrictEqual(comments);
 });
 
 test('presenter falls back to items.length when comments_total_count is undefined', () => {
@@ -66,5 +64,5 @@ test('presenter falls back to items.length when comments_total_count is undefine
     comments,
   });
 
-  assert.strictEqual(out.comments.total_count, comments.length);
+  expect(out.comments.total_count).toBe(comments.length);
 });
