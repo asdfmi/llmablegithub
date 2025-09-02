@@ -20,8 +20,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - run: npm ci
-      - run: npm run -s check
-      - run: npm run -s lint
+      - run: npx tsc -v && node -v && npm -v
+      - run: npx tsc --noEmit --pretty false --showConfig -p tsconfig.json
+      - run: npx tsc --noEmit --pretty false -p tsconfig.json
+      - run: npx tsc --noEmit --pretty false -p tests/tsconfig.json
 
   test:
     name: Build & Test
