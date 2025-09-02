@@ -6,7 +6,7 @@ import pluginSimpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default tseslint.config(
   {
-    ignores: ["dist/**", ".wrangler/**"],
+    ignores: ["dist/**", ".wrangler/**", "vitest.config.ts"],
   },
   {
     files: ["**/*.ts"],
@@ -19,7 +19,7 @@ export default tseslint.config(
         tsconfigRootDir: new URL('.', import.meta.url).pathname,
         allowDefaultProject: true,
       },
-      globals: { ...globals.serviceworker, ...globals.worker },
+      globals: { ...globals.serviceworker },
     },
     plugins: {
       "@typescript-eslint": tseslint.plugin,
@@ -47,14 +47,11 @@ export default tseslint.config(
     files: ["tests/**/*.ts"],
     languageOptions: {
       parserOptions: { projectService: false },
-      globals: { ...globals.node },
     },
     rules: {
-      // テストでは node:test / node:assert を許可
       "no-restricted-imports": "off",
-      // 型情報を必要とするルールはテストでは無効化
       "@typescript-eslint/no-floating-promises": "off",
       "@typescript-eslint/no-misused-promises": "off",
     },
-  }
+  },
 );
