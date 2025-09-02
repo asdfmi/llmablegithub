@@ -1,0 +1,37 @@
+{
+  "name": "llmablegithub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:local": "wrangler dev --local",
+    "deploy": "wrangler deploy",
+    "build": "tsc -p tsconfig.json --outDir dist && tsc -p tsconfig.test.json --outDir dist",
+    "check": "tsc --noEmit",
+    "check:test": "tsc -p tsconfig.test.json --noEmit",
+    "check:all": "npm run -s check && npm run -s check:test",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "lint:test": "eslint tests --ext .ts",
+    "test": "npm run -s build && node --test \"dist/tests/**/*.test.js\""
+  },
+  "dependencies": {
+    "itty-router": "^5.0.22"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250831.0",
+    "@eslint/js": "^9.34.0",
+    "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "@typescript-eslint/parser": "^8.41.0",
+    "eslint": "^9.34.0",
+    "eslint-plugin-import-x": "^4.16.1",
+    "eslint-plugin-promise": "^6.6.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^15.15.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.41.0",
+    "wrangler": "^4.33.1"
+  }
+}
