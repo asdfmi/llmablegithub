@@ -1,15 +1,9 @@
+import { GITHUB_API_BASE, githubHeaders } from "../../config";
 import { hasNumberProp } from "../../shared/guards";
 import type { Result } from "../../shared/result";
 import type { UpstreamError } from "../errors";
 import { mapHttpStatusToUpstreamError } from "../errors";
 import { fetchJson } from "../http";
-
-const GH_API_BASE = "https://api.github.com";
-
-const GH_HEADERS: HeadersInit = {
-  Accept: "application/vnd.github+json",
-  "User-Agent": "llmable-github/0.1",
-};
 
 
 export async function fetchIssue(
@@ -17,8 +11,12 @@ export async function fetchIssue(
   repo: string,
   issueNumber: number
 ): Promise<Result<unknown, UpstreamError>> {
-  const url = `${GH_API_BASE}/repos/${owner}/${repo}/issues/${issueNumber}`;
-  const r = await fetchJson(url, { headers: GH_HEADERS }, (v) => hasNumberProp(v, "number"));
+  const url = `${GITHUB_API_BASE}/repos/${owner}/${repo}/issues/${issueNumber}`;
+  const r = await fetchJson(
+    url,
+    { headers: githubHeaders() },
+    (v) => hasNumberProp(v, "number"),
+  );
   return r.ok ? r : { ok: false, error: mapHttpStatusToUpstreamError(r.error) };
 }
 
@@ -28,7 +26,9 @@ export async function fetchIssueComments(
   repo: string,
   issueNumber: number
 ): Promise<Result<unknown, UpstreamError>> {
-  const url = `${GH_API_BASE}/repos/${owner}/${repo}/issues/${issueNumber}/comments?per_page=100`;
-  const r = await fetchJson(url, { headers: GH_HEADERS }, Array.isArray);
+  const url =
+    `${GITHUB_API_BASE}/repos/${owner}/${repo}/issues/${issueNumber}` +
+    `/comments?per_page=100`;
+  const r = await fetchJson(url, { headers: githubHeaders() }, Array.isArray);
   return r.ok ? r : { ok: false, error: mapHttpStatusToUpstreamError(r.error) };
 }

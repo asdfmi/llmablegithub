@@ -2,13 +2,7 @@ import type { ServiceError } from "../../services/errors";
 import { getLLMableIssueResponse } from "../../services/github/service";
 import type { Result } from "../../shared/result";
 import { toJsonErrorResponse } from "../errors";
-
-type RouterType = {
-  get: (
-    path: string,
-    handler: (req: Request) => Promise<Response> | Response
-  ) => unknown;
-};
+import type { RouterLike } from "../types";
 
 export type ServiceFn<T> = (
   owner: string,
@@ -17,7 +11,7 @@ export type ServiceFn<T> = (
 ) => Promise<Result<T, ServiceError>>;
 
 export function registerGithubIssueRoutes<T>(
-  router: RouterType,
+  router: RouterLike,
   service: ServiceFn<T> = getLLMableIssueResponse as unknown as ServiceFn<T>
 ) {
   type RouteRequest = Request & { params?: { owner: string; repo: string; number: string } };
